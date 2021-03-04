@@ -11,7 +11,7 @@
       :on-click="handleClick"
       class="m-top-12"
     >
-      开始答题
+      提交答案
     </AtButton>
   </view>
 </template>
@@ -19,23 +19,25 @@
 <script>
 // 按需引入, 更小的应用体积
 import { AtButton } from 'taro-ui-vue'
-import Taro from '@tarojs/taro'
 import "taro-ui-vue/dist/style/components/button.scss"
-import './index.scss' 
+import './list.scss' 
 export default {
     components: {
     AtButton
   },
   data () {
     return {
+      msg: 'Hello world!',
+      show: false
     }
   },
   methods: {
     handleClick () {
-      Taro.navigateTo({
-        url: '/pages/list/list'
-      })
+      this.show = true
     },
+    handleClose () {
+      this.show = false
+    }
   },
     }
 </script>
