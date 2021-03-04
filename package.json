@@ -1,0 +1,13 @@
+{
+  "name": "wenjuandiaocha",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "lerna:init": "lerna init",
+    "lerna:bootstrap": "lerna bootstrap"
+  },
+  "dependencies": {
+    "lerna": "^4.0.0"
+  }
+}
