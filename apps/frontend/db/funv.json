@@ -328,7 +328,7 @@
         "options": [
             {
                 "label": "A、年龄    ",
-                "value": "A、年龄    "
+                "value": "A、年龄    "  
             },
             {
                 "label": "B、文化程度、技术能力    ",

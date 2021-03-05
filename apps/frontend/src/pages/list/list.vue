@@ -1,42 +1,126 @@
 <template>
-  <view class="index">
-      <view>
-        <text class="d-block text-center">南安市维护妇女儿童合法权益实施情况调查问卷</text>
-        <text class="d-block font-16 m-top-12">尊敬的女士：</text>
-        <text class="d-block font-16 text-indent-2">您好！</text>
-        <text class="d-block font-16 text-indent-2">为了更好地维护妇女和儿童的合法权益，全面了解《南安市妇女发展纲要（2011—2020年）》和《南安市儿童发展纲要（2011—2020年）》实施情况，特编写这份调查问卷。该问卷题目没有标准答案，也没有对错之分，请您按自己了解的情况如实填写，在符合自己选项的数字上划“√”。感谢您的支持和配合！</text>
+  <view class="list">
+      <text>一、妇女发展</text>
+      <view v-for="(item,index) in funvtree" :key="'funvtree' + index">
+        <text class="d-block font-08 m-item-category">{{item.category}}</text>
+        <view v-for="(iitem,j) in item.titles" :key="j">
+          <text class="d-block font-07">{{iitem.title}}</text>
+          <template v-if="iitem.mode === 'radio'">
+            <AtRadio
+              :options="iitem.options"
+              :value="answer[iitem.title]"
+              :onClick="(value) => {
+                handleChange(value,iitem.title)
+              }"
+            />
+          </template>
+          <template v-if="iitem.mode === 'checkbox'">
+            <AtCheckbox
+              :options="iitem.options"
+              :selectedList="answer[iitem.title]"
+              :onChange="(value) => {
+                handleChange(value,iitem.title)
+              }"
+            />
+          </template>
+        </view>
       </view>
+      <text>二、儿童保障</text>
+      <view v-for="(item,index) in ertongtree" :key="index">
+        <text class="d-block font-08 m-item-category">({{numlist[index]}}) {{item.category}}</text>
+        <view v-for="(iitem,j) in item.titles" :key="j">
+          <text class="d-block font-07">{{j + 1}}、{{iitem.title}}</text>
+          <template v-if="iitem.mode === 'radio'">
+            <AtRadio
+              :options="iitem.options"
+              :value="answer[iitem.title]"
+              :onClick="(value) => {
+                handleChange(value,iitem.title)
+              }"
+            />
+          </template>
+          <template v-if="iitem.mode === 'checkbox'">
+            <AtCheckbox
+              :options="iitem.options"
+              :selectedList="answer[iitem.title]"
+              :onChange="(value) => {
+                handleChange(value,iitem.title)
+              }"
+            />
+          </template>
+        </view>
+      </view>
+      <AtToast :isOpened="showMsg" :text="msg"></AtToast>
+      <view class="fix-bottom-10">
     <AtButton
       type="primary"
       :on-click="handleClick"
-      class="m-top-12"
     >
       提交答案
     </AtButton>
+      </view>
   </view>
 </template>
 
 <script>
 // 按需引入, 更小的应用体积
-import { AtButton } from 'taro-ui-vue'
+import { AtButton, AtRadio, AtCheckbox, AtToast }  from 'taro-ui-vue'
 import "taro-ui-vue/dist/style/components/button.scss"
+import "taro-ui-vue/dist/style/components/radio.scss";
+import "taro-ui-vue/dist/style/components/icon.scss";
+import "taro-ui-vue/dist/style/components/checkbox.scss";
+import "taro-ui-vue/dist/style/components/toast.scss";
+
 import './list.scss' 
+import funvlist from '../../../db/funv.json' 
+import ertonglist from '../../../db/ertong.json' 
 export default {
     components: {
-    AtButton
+    AtButton,
+    AtRadio,
+    AtCheckbox,
+    AtToast
   },
   data () {
     return {
-      msg: 'Hello world!',
-      show: false
+      funvtree: [],
+      ertongtree: [],
+      answer: {},
+      msg: '',
+      showMsg: false,
+      numlist: ['一','二','三','四','五','六','七','八','九','十']
     }
+  },
+  created() {
+    this.genTree(funvlist,this.funvtree)
+    this.genTree(ertonglist,this.ertongtree)
   },
   methods: {
     handleClick () {
-      this.show = true
+      if (Object.keys(this.answer).length !== (funvlist.length + ertonglist.length)) {
+        this.msg = '请完成所有题目'
+        this.showMsg = true
+      }
     },
-    handleClose () {
-      this.show = false
+    handleChange(value,title) {
+      // console.log('handleChange ...',value,title)
+      // this.answer[title] = value;
+      this.$set(this.answer,title,value)
+    },
+    genTree(list,tree) {
+      const datamap = {};
+      list.forEach(it => {
+        if (!datamap[it.category]) {
+          datamap[it.category] = [];
+        }
+        datamap[it.category].push(it);
+      });
+      Object.keys(datamap).forEach(it => {
+        tree.push({
+          category: it,
+          titles: datamap[it]
+        })
+      })
     }
   },
     }

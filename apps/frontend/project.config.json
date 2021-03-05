@@ -2,7 +2,7 @@
 	"miniprogramRoot": "./dist",
 	"projectname": "wenjuan",
 	"description": "wen juan diao cha",
-	"appid": "touristappid",
+	"appid": "wx9034d300f5ba8bed",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
