@@ -1,9 +1,9 @@
 <template>
   <view class="list">
     <view>
-      <text>{{timus[current].block}}</text>
-      <text>{{timus[current].category}}</text>
-      <text>{{timus[current].title}}</text>
+      <text class="d-block">{{timus[current].block}}</text>
+      <text class="d-block">{{timus[current].category}}</text>
+      <text class="d-block">{{timus[current].title}}</text>
       <template v-if="timus[current].mode === 'radio'">
             <AtRadio
               :options="timus[current].options"
@@ -28,6 +28,21 @@
     </view>
       <!-- <AtToast :isOpened="showMsg" :text="msg"></AtToast> -->
       <view>
+
+    <AtButton
+      :on-click="current--"
+      :disabled="current === 0"
+    >
+      上一题
+    </AtButton>
+    <AtButton
+      type="primary"
+      :on-click="handleClick"
+    >
+      {{(current+1) === timus.length?'提交答案': '下一题'}}
+    </AtButton>
+      </view>
+      <view>
     <AtButton
       type="primary"
       :on-click="handleClick"
@@ -47,7 +62,7 @@ import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/checkbox.scss";
 import "taro-ui-vue/dist/style/components/toast.scss";
 
-import './list.scss' 
+import './item.scss' 
 import funvlist from '../../../db/funv.json' 
 import ertonglist from '../../../db/ertong.json' 
 export default {
@@ -72,9 +87,10 @@ export default {
   },
   methods: {
     handleClick () {
-      if (Object.keys(this.answer).length !== (funvlist.length + ertonglist.length)) {
-        this.msg = '请完成所有题目'
-        this.showMsg = true
+      if ((this.current + 1) === this.timus.length) {
+        console.log('tijiao daan ...',this.answer)
+      } else {
+        this.current++
       }
     },
     handleChange(value,title) {
@@ -82,21 +98,6 @@ export default {
       // this.answer[title] = value;
       this.$set(this.answer,title,value)
     },
-    genTree(list,tree) {
-      const datamap = {};
-      list.forEach(it => {
-        if (!datamap[it.category]) {
-          datamap[it.category] = [];
-        }
-        datamap[it.category].push(it);
-      });
-      Object.keys(datamap).forEach(it => {
-        tree.push({
-          category: it,
-          titles: datamap[it]
-        })
-      })
-    }
   },
     }
 </script>
