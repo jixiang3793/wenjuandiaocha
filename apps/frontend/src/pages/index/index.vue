@@ -75,19 +75,18 @@ export default {
   methods: {
 
     bindGetUserInfo(e) {
-      console.log(e.detail.userInfo);
-      Taro.atMessage({
-        message: JSON.stringify(e.detail.userInfo),
-        // message: "JSON.stringify(e.detail.userInfo)",
-        type: "info",
-      });
       if (e.detail.errMsg.indexOf('ok') > -1) {
         this.toList();
+      } else {
+        Taro.atMessage({
+          message: "请授权个人信息，继续答题",
+          type: "info",
+        });
       }
     },
     toList() {
       Taro.navigateTo({
-        url: "/pages/list/list",
+        url: "/pages/item/item",
       });
     },
   },
