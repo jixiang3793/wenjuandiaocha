@@ -1,0 +1,14 @@
+version: '2'
+services:
+  mongo:
+    extends:
+      file: mongo.yml
+      service: mongo
+  # elasticsearch:
+  #   extends:
+  #     file: elasticsearch.yml
+  #     service: elasticsearch
+  # minio:
+  #   extends:
+  #     file: minio.yml
+  #     service: minio

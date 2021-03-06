@@ -3,6 +3,7 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
+    reqUrl: ''
   },
   mini: {},
   h5: {

@@ -57,9 +57,24 @@ export default {
         if (res.authSetting["scope.userInfo"]) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
-            success: function (res) {
+            success: async function (res) {
               console.log(res.userInfo);
+              Taro.setStorage({
+                key:"userInfo",
+                data: res.userInfo
+              });
               that.isUserInfo = true;
+              const isAnswerRes = await Taro.request({
+                url: 'http://localhost:7001/answer',
+                data: res.userInfo,
+                method: 'POST'
+              });
+              if (isAnswerRes.data.isAnswer) {
+                Taro.navigateTo({
+                  url: "/pages/success/success",
+                });
+              }
+              // console.log("isAnswerRes ...",isAnswerRes);
             },
           });
         }

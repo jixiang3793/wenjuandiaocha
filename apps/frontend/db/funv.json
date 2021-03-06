@@ -214,8 +214,8 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、是        ",
-                "value": "A、是        "
+                "label": "A、是 ",
+                "value": "A、是 "
             },
             {
                 "label": "B、否",
@@ -274,12 +274,12 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、参加过      ",
-                "value": "A、参加过      "
+                "label": "A、参加过 ",
+                "value": "A、参加过 "
             },
             {
-                "label": "B、没参加过,也不想参加      ",
-                "value": "B、没参加过,也不想参加      "
+                "label": "B、没参加过,也不想参加 ",
+                "value": "B、没参加过,也不想参加 "
             },
             {
                 "label": "C、没参加过,想要参加",
@@ -294,12 +294,12 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、当地政府      ",
-                "value": "A、当地政府      "
+                "label": "A、当地政府 ",
+                "value": "A、当地政府 "
             },
             {
-                "label": "B、企业      ",
-                "value": "B、企业      "
+                "label": "B、企业 ",
+                "value": "B、企业 "
             },
             {
                 "label": "C、个人意愿",
@@ -314,20 +314,20 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、亲戚朋友          ",
-                "value": "A、亲戚朋友          "
+                "label": "A、亲戚朋友   ",
+                "value": "A、亲戚朋友   "
             },
             {
                 "label": "B、中介机构推荐",
                 "value": "B、中介机构推荐"
             },
             {
-                "label": "C、用人单位招工      ",
-                "value": "C、用人单位招工      "
+                "label": "C、用人单位招工 ",
+                "value": "C、用人单位招工 "
             },
             {
-                "label": "D、政府或企业安排       ",
-                "value": "D、政府或企业安排       "
+                "label": "D、政府或企业安排",
+                "value": "D、政府或企业安排"
             },
             {
                 "label": "E、自主创业",
@@ -342,12 +342,12 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、年龄    ",
-                "value": "A、年龄    "
+                "label": "A、年龄",
+                "value": "A、年龄"
             },
             {
-                "label": "B、文化程度、技术能力    ",
-                "value": "B、文化程度、技术能力    "
+                "label": "B、文化程度、技术能力",
+                "value": "B、文化程度、技术能力"
             },
             {
                 "label": "C、工作经验   ",
@@ -358,16 +358,16 @@
                 "value": "D、性别歧视"
             },
             {
-                "label": "E、户籍、地域     ",
-                "value": "E、户籍、地域     "
+                "label": "E、户籍、地域",
+                "value": "E、户籍、地域"
             },
             {
-                "label": "F、家庭因素     ",
-                "value": "F、家庭因素     "
+                "label": "F、家庭因素",
+                "value": "F、家庭因素"
             },
             {
-                "label": "G、资金     ",
-                "value": "G、资金     "
+                "label": "G、资金",
+                "value": "G、资金"
             },
             {
                 "label": "H、其他",
@@ -406,16 +406,16 @@
         "mode": "checkbox",
         "options": [
             {
-                "label": "A、亲友介绍    ",
-                "value": "A、亲友介绍    "
+                "label": "A、亲友介绍",
+                "value": "A、亲友介绍"
             },
             {
-                "label": "B、网上搜寻    ",
-                "value": "B、网上搜寻    "
+                "label": "B、网上搜寻",
+                "value": "B、网上搜寻"
             },
             {
-                "label": "C、招聘会    ",
-                "value": "C、招聘会    "
+                "label": "C、招聘会",
+                "value": "C、招聘会"
             },
             {
                 "label": "D、职业中介",
@@ -438,16 +438,16 @@
         "mode": "checkbox",
         "options": [
             {
-                "label": "A、企业应聘    ",
-                "value": "A、企业应聘    "
+                "label": "A、企业应聘",
+                "value": "A、企业应聘"
             },
             {
                 "label": "B、来料加工（即手工编织等在家就业形式）",
                 "value": "B、来料加工（即手工编织等在家就业形式）"
             },
             {
-                "label": "C、农林种植或畜牧养殖    ",
-                "value": "C、农林种植或畜牧养殖    "
+                "label": "C、农林种植或畜牧养殖",
+                "value": "C、农林种植或畜牧养殖"
             },
             {
                 "label": "D、自主创业",
@@ -470,20 +470,20 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、技术技能培训     ",
-                "value": "A、技术技能培训     "
+                "label": "A、技术技能培训",
+                "value": "A、技术技能培训"
             },
             {
                 "label": "B、文化知识培训",
                 "value": "B、文化知识培训"
             },
             {
-                "label": "C、创业技能培训     ",
-                "value": "C、创业技能培训     "
+                "label": "C、创业技能培训",
+                "value": "C、创业技能培训"
             },
             {
-                "label": "D、职业资格认证培训      ",
-                "value": "D、职业资格认证培训      "
+                "label": "D、职业资格认证培训 ",
+                "value": "D、职业资格认证培训 "
             },
             {
                 "label": "E、其他",
@@ -498,24 +498,20 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、资金支持       ",
-                "value": "A、资金支持       "
+                "label": "A、资金支持",
+                "value": "A、资金支持"
             },
             {
-                "label": "B、技术培训       ",
-                "value": "B、技术培训       "
+                "label": "B、技术培训",
+                "value": "B、技术培训"
             },
             {
-                "label": "C、",
-                "value": "C、"
+                "label": "C、信息指导",
+                "value": "C、信息指导"
             },
             {
-                "label": "信息指导",
-                "value": "信息指导"
-            },
-            {
-                "label": "D、政府政策扶持        ",
-                "value": "D、政府政策扶持        "
+                "label": "D、政府政策扶持 ",
+                "value": "D、政府政策扶持 "
             },
             {
                 "label": "E、其他",
@@ -530,20 +526,20 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、在家自学     ",
-                "value": "A、在家自学     "
+                "label": "A、在家自学",
+                "value": "A、在家自学"
             },
             {
-                "label": "B、网络教育     ",
-                "value": "B、网络教育     "
+                "label": "B、网络教育",
+                "value": "B、网络教育"
             },
             {
                 "label": "C、现场教学",
                 "value": "C、现场教学"
             },
             {
-                "label": "D、举办教育活动      ",
-                "value": "D、举办教育活动      "
+                "label": "D、举办教育活动 ",
+                "value": "D、举办教育活动 "
             },
             {
                 "label": "E、妇女之间自发组织互助教育",
@@ -562,16 +558,16 @@
         "mode": "checkbox",
         "options": [
             {
-                "label": "A、搜集和发布职业需求信息           ",
-                "value": "A、搜集和发布职业需求信息           "
+                "label": "A、搜集和发布职业需求信息",
+                "value": "A、搜集和发布职业需求信息"
             },
             {
                 "label": "B、就近组织招聘会",
                 "value": "B、就近组织招聘会"
             },
             {
-                "label": "C、就业政策、制度和法规咨询         ",
-                "value": "C、就业政策、制度和法规咨询         "
+                "label": "C、就业政策、制度和法规咨询  ",
+                "value": "C、就业政策、制度和法规咨询  "
             },
             {
                 "label": "D、帮助提高就业技能",
@@ -1086,8 +1082,8 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、是         ",
-                "value": "A、是         "
+                "label": "A、是  ",
+                "value": "A、是  "
             },
             {
                 "label": "B、否",
@@ -1102,8 +1098,8 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、是         ",
-                "value": "A、是         "
+                "label": "A、是  ",
+                "value": "A、是  "
             },
             {
                 "label": "B、否",
@@ -1118,8 +1114,8 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、是         ",
-                "value": "A、是         "
+                "label": "A、是  ",
+                "value": "A、是  "
             },
             {
                 "label": "B、否",
@@ -1134,8 +1130,8 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、是         ",
-                "value": "A、是         "
+                "label": "A、是  ",
+                "value": "A、是  "
             },
             {
                 "label": "B、否",
@@ -1150,8 +1146,8 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、是         ",
-                "value": "A、是         "
+                "label": "A、是  ",
+                "value": "A、是  "
             },
             {
                 "label": "B、否",
@@ -1166,12 +1162,12 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、了解       ",
-                "value": "A、了解       "
+                "label": "A、了解",
+                "value": "A、了解"
             },
             {
-                "label": "B、听说过但不太清楚      ",
-                "value": "B、听说过但不太清楚      "
+                "label": "B、听说过但不太清楚 ",
+                "value": "B、听说过但不太清楚 "
             },
             {
                 "label": "C、不了解",
@@ -1186,8 +1182,8 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、有必要    ",
-                "value": "A、有必要    "
+                "label": "A、有必要",
+                "value": "A、有必要"
             },
             {
                 "label": "B、无所谓",
@@ -1222,16 +1218,16 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、经常遭受    ",
-                "value": "A、经常遭受    "
+                "label": "A、经常遭受",
+                "value": "A、经常遭受"
             },
             {
                 "label": "B、偶尔遭受",
                 "value": "B、偶尔遭受"
             },
             {
-                "label": "C、从未遭受    ",
-                "value": "C、从未遭受    "
+                "label": "C、从未遭受",
+                "value": "C、从未遭受"
             },
             {
                 "label": "D、其他",
@@ -1294,20 +1290,20 @@
         "mode": "radio",
         "options": [
             {
-                "label": "A、找妇联组织         ",
-                "value": "A、找妇联组织         "
+                "label": "A、找妇联组织  ",
+                "value": "A、找妇联组织  "
             },
             {
                 "label": "B、找亲戚朋友帮助",
                 "value": "B、找亲戚朋友帮助"
             },
             {
-                "label": "C、找政府相关部门     ",
-                "value": "C、找政府相关部门     "
+                "label": "C、找政府相关部门",
+                "value": "C、找政府相关部门"
             },
             {
-                "label": "D、寻找法律帮助        ",
-                "value": "D、寻找法律帮助        "
+                "label": "D、寻找法律帮助 ",
+                "value": "D、寻找法律帮助 "
             },
             {
                 "label": "E、忍受",
