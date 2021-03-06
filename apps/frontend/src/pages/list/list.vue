@@ -2,9 +2,9 @@
   <view class="list">
       <text>一、妇女发展</text>
       <view v-for="(item,index) in funvtree" :key="'funvtree' + index">
-        <text class="d-block font-08 m-item-category">{{item.category}}</text>
+        <text class="d-block m-item-category">{{item.category}}</text>
         <view v-for="(iitem,j) in item.titles" :key="j">
-          <text class="d-block font-07">{{iitem.title}}</text>
+          <text class="d-block">{{iitem.title}}</text>
           <template v-if="iitem.mode === 'radio'">
             <AtRadio
               :options="iitem.options"
@@ -27,9 +27,9 @@
       </view>
       <text>二、儿童保障</text>
       <view v-for="(item,index) in ertongtree" :key="index">
-        <text class="d-block font-08 m-item-category">({{numlist[index]}}) {{item.category}}</text>
+        <text class="d-block m-item-category">({{numlist[index]}}) {{item.category}}</text>
         <view v-for="(iitem,j) in item.titles" :key="j">
-          <text class="d-block font-07">{{j + 1}}、{{iitem.title}}</text>
+          <text class="d-block">{{j + 1}}、{{iitem.title}}</text>
           <template v-if="iitem.mode === 'radio'">
             <AtRadio
               :options="iitem.options"
