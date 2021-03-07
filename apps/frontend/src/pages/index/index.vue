@@ -53,8 +53,8 @@ export default {
     // 查看是否授权
     const that = this;
     wx.getSetting({
-      success(res) {
-        if (res.authSetting["scope.userInfo"]) {
+      success(settingRes) {
+        if (settingRes.authSetting["scope.userInfo"]) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
             success: async function (res) {
@@ -65,7 +65,7 @@ export default {
               });
               that.isUserInfo = true;
               const isAnswerRes = await Taro.request({
-                url: 'http://localhost:7001/answer',
+                url: `${REQHOST}/answer`,
                 data: res.userInfo,
                 method: 'POST'
               });

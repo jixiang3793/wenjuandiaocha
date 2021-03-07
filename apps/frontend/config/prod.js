@@ -3,7 +3,7 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
-    reqUrl: ''
+    REQHOST: '"http://139.9.161.162:7001"'
   },
   mini: {},
   h5: {

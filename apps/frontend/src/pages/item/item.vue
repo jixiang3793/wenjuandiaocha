@@ -66,10 +66,10 @@ import "taro-ui-vue/dist/style/components/checkbox.scss";
 import "taro-ui-vue/dist/style/components/toast.scss";
 
 import "./item.scss";
-// import funvlist from "../../../db/funv.json";
-import funvlist from "../../../db/funvlow.json";
-import ertonglist from "../../../db/ertonglow.json";
-// import ertonglist from "../../../db/ertong.json";
+import funvlist from "../../../db/funv.json";
+// import funvlist from "../../../db/funvlow.json";
+// import ertonglist from "../../../db/ertonglow.json";
+import ertonglist from "../../../db/ertong.json";
 export default {
   components: {
     AtButton,
@@ -106,7 +106,7 @@ export default {
           this.loading = true;
           const userInfo = Taro.getStorageSync('userInfo');
           const result = await Taro.request({
-            url: 'http://localhost:7001/answer/save',
+            url: `${REQHOST}/answer/save`,
             data: { ...userInfo, answer: this.answer },
             method: 'POST'
           });
