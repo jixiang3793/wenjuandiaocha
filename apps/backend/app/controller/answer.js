@@ -9,6 +9,10 @@ class AnswerController extends Controller {
     const isAnswer = await this.ctx.model.Answer.exists({ nickName : params.nickName });
     this.ctx.body = {isAnswer};
   }
+  async findAll() {
+    const result = await this.ctx.model.Answer.find();
+    this.ctx.body = result;
+  }
 
   async save() {
     const params = this.ctx.request.body;

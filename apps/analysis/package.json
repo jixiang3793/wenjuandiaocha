@@ -9,9 +9,10 @@
     "analyze": "npm_config_report=true vue-cli-service build --mode analyze"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-axios": "^3.2.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
