@@ -73,22 +73,24 @@ export default {
       list.forEach(it => {
         result.forEach(re => {
           const ticket = re.answer[it.title];
-          if (Array.isArray(ticket)) {
-            ticket.forEach(ti => {
-              const opt = it.options.find(opt => (opt.value === ti));
+          if (ticket) {
+            if (Array.isArray(ticket)) {
+              ticket.forEach(ti => {
+                const opt = it.options.find(opt => (opt.value === ti));
+                console.log('opt ...',opt,ticket);
+                if (!opt.count) {
+                  opt.count = 0;
+                }
+                opt.count++;
+              })
+            } else {
+              const opt = it.options.find(opt => (opt.value === ticket));
               console.log('opt ...',opt,ticket);
               if (!opt.count) {
                 opt.count = 0;
               }
               opt.count++;
-            })
-          } else {
-            const opt = it.options.find(opt => (opt.value === ticket));
-            console.log('opt ...',opt,ticket);
-            if (!opt.count) {
-              opt.count = 0;
             }
-            opt.count++;
           }
         });
         it.options.forEach(opt => {
