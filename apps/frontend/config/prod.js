@@ -3,7 +3,7 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
-    REQHOST: '"http://139.9.161.162:7001"'
+    REQHOST: '"https://www.haosymall.com.cn"'
   },
   mini: {},
   h5: {
