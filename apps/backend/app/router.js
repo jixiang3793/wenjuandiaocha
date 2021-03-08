@@ -10,4 +10,5 @@ module.exports = app => {
   router.post('/answer/save', controller.answer.save);
   router.post('/answer', controller.answer.find);
   router.get('/answer', controller.answer.findAll);
+  router.get('/timu', controller.timu.findAll);
 };

@@ -5,26 +5,16 @@
         <h1>南安市维护妇女儿童合法权益实施情况调查问卷统计结果</h1>
         <h5>参与总人数：{{result.length}}</h5>
       </div>
-      <h2>一、妇女发展</h2>
-      <div v-for="(item,index) in funvtree" :key="'funvtree' + index">
-        <h3>{{item.category}}</h3>
-        <div v-for="(iitem,j) in item.titles" :key="j">
-          <h4>{{iitem.title}}</h4>
-          <div>
-            <div v-for="(opt,k) in iitem.options" :key="k" class="timu-option-item">
-              {{opt.label}}({{opt.percent || 0}}%-{{opt.count || 0}}人)
-            </div>
-          </div>
-        </div>
-      </div>
-      <h2>二、儿童保障</h2>
-      <div v-for="(item,index) in ertongtree" :key="index">
-        <h3>({{numlist[index]}}) {{item.category}}</h3>
-        <div v-for="(iitem,j) in item.titles" :key="j">
-          <h4>{{j + 1}}、{{iitem.title}}</h4>
-          <div>
-            <div v-for="(opt,k) in iitem.options" :key="k" class="timu-option-item">
-              {{opt.label}}({{opt.percent || 0}}%-{{opt.count || 0}}人)
+      <div v-for="(categories, block) in timutree" :key="block">
+        <h2>{{block}}</h2>
+        <div v-for="(titles,category) in categories" :key="category">
+          <h3>{{category}}</h3>
+          <div v-for="(iitem,j) in titles" :key="j">
+            <h4>{{iitem.title}}</h4>
+            <div>
+              <div v-for="(opt,k) in iitem.options" :key="k" class="timu-option-item">
+                {{opt.label}}({{opt.percent || 0}}%-{{opt.count || 0}}人)
+              </div>
             </div>
           </div>
         </div>
@@ -34,40 +24,32 @@
 </template>
 
 <script>
-import funvlist from './assets/funv.json' 
-import ertonglist from './assets/ertong.json' 
 
 export default {
   components: {
   },
   data() {
     return {
-      funvtree: [],
-      ertongtree: [],
+      timulist: [],
+      timutree: {},
       result: [],
       numlist: ['一','二','三','四','五','六','七','八','九','十']
     };
   },
   created() {
-    this.genTree(funvlist,this.funvtree)
-    this.genTree(ertonglist,this.ertongtree)
-    this.getResult();
+    this.getTimus();
   },
   methods: {
     genTree(list,tree) {
-      const datamap = {};
       list.forEach(it => {
-        if (!datamap[it.category]) {
-          datamap[it.category] = [];
+        if (!tree[it.block]) {
+          tree[it.block] = {};
         }
-        datamap[it.category].push(it);
+        if (!tree[it.block][it.category]) {
+          tree[it.block][it.category] = [];
+        }
+        tree[it.block][it.category].push(it);
       });
-      Object.keys(datamap).forEach(it => {
-        tree.push({
-          category: it,
-          titles: datamap[it]
-        })
-      })
     },
     analysis(list,result) {
       list.forEach(it => {
@@ -94,15 +76,23 @@ export default {
           }
         });
         it.options.forEach(opt => {
-          opt.percent = Math.round(opt.count/result.length) * 100;
+          opt.percent = Math.round(opt.count/result.length * 100);
         })
+      });
+    },
+    getTimus() {
+      this.$http.get('/timu').then(result => {
+        this.timulist = result.data;
+        console.log('timu ...',this.timulist);
+        this.genTree(this.timulist,this.timutree);
+        this.getResult();
       });
     },
     getResult() {
       this.$http.get('/answer').then(result => {
         this.result = result.data;
         console.log('result ...',this.result);
-        this.analysis(funvlist.concat(ertonglist),this.result);
+        this.analysis(this.timulist,this.result);
       });
     }
   }
