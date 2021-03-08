@@ -23,5 +23,6 @@ module.exports = {
     // writeToDisk: true,
     proxy: "http://localhost:7001",
   },
-  // outputDir: '../../../../build/resources/main/static/',
+  publicPath: 'public',
+  outputDir: '../backend/app/public/',
 };
