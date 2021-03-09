@@ -1,12 +1,17 @@
 <template>
   <view class="index">
-    <template v-if="loading">
+    <template v-if="pageStatus === 'loading'">
       <view class="text-center">
-        <AtIcon value='loading-2' size='100'></AtIcon>
-        <text class="d-block mt-1">正在加载中...</text>
+        <text class="d-block text-center font-1h"
+          >南安市维护妇女儿童合法权益实施情况调查问卷</text
+        >
+        <view class="mt-1">
+          <AtIcon value="loading-2" size="100"></AtIcon>
+          <text class="d-block mt-1">正在加载中...</text>
+        </view>
       </view>
     </template>
-    <template v-if="!loading">
+    <template v-if="pageStatus === 'normal'">
       <view>
         <text class="d-block text-center font-1h"
           >南安市维护妇女儿童合法权益实施情况调查问卷</text
@@ -36,6 +41,18 @@
       </AtButton>
       <AtMessage />
     </template>
+    <template v-if="pageStatus === 'finish'">
+      <view>
+        <text class="d-block text-center font-1h"
+          >南安市维护妇女儿童合法权益实施情况调查问卷</text
+        >
+        <view class="mt-1 text-center">
+          <AtIcon value="check-circle" size="100" color="green"></AtIcon>
+          <text class="d-block my-1 fs-2">您已完成所有答题</text>
+          <text class="d-block my-1 fs-1h">感谢您的参与</text>
+        </view>
+      </view>
+    </template>
   </view>
 </template>
 
@@ -44,53 +61,44 @@
 import { AtButton, AtMessage, AtIcon } from "taro-ui-vue";
 import Taro from "@tarojs/taro";
 import "taro-ui-vue/dist/style/components/button.scss";
+import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/message.scss";
 import "./index.scss";
 export default {
   components: {
     AtButton,
     AtMessage,
-    AtIcon
+    AtIcon,
   },
   data() {
     return {
       // canIUse: wx.canIUse('button.open-type.getUserInfo')
       isUserInfo: false,
-      loading: true
+      pageStatus: 'loading', // loading-在加载中,finish-已完成,normal-首页
     };
   },
   onLoad: function () {
     // 查看是否授权
+    Taro.removeStorageSync('userAnswerIsFinish');
     const that = this;
     wx.getSetting({
       success(settingRes) {
         if (settingRes.authSetting["scope.userInfo"]) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
-            success: async function (res) {
+            success: function (res) {
               console.log(res.userInfo);
               Taro.setStorage({
-                key:"userInfo",
-                data: res.userInfo
+                key: "userInfo",
+                data: res.userInfo,
               });
               that.isUserInfo = true;
-              const isAnswerRes = await Taro.request({
-                url: `${REQHOST}/answer`,
-                data: res.userInfo,
-                method: 'POST'
-              });
-              if (isAnswerRes.data.isAnswer) {
-                Taro.navigateTo({
-                  url: "/pages/success/success",
-                });
-              } else {
-                that.loading = false;
-              }
+              that.getIsAnswer(res);
               // console.log("isAnswerRes ...",isAnswerRes);
             },
             fail: function () {
               that.loading = false;
-            }
+            },
           });
         } else {
           that.loading = false;
@@ -98,13 +106,37 @@ export default {
       },
       fail() {
         that.loading = false;
-      }
+      },
     });
   },
+  onShow() {
+    // 返回页面时需要
+    // console.log("onshow ...", this.isUserInfo);
+    if (this.isUserInfo) {
+      const isFinish = Taro.getStorageSync('userAnswerIsFinish');
+      if (isFinish) {
+        this.pageStatus = 'finish';
+      } else {
+        this.pageStatus = 'normal';
+      }
+      // this.getIsAnswer(Taro.getStorageSync('userInfo'));
+    }
+  },
   methods: {
-
+    async getIsAnswer(res) {
+      const isAnswerRes = await Taro.request({
+        url: `${REQHOST}/answer`,
+        data: res.userInfo,
+        method: "POST",
+      });
+      if (isAnswerRes.data.isAnswer) {
+        this.pageStatus = 'finish';
+      } else {
+        this.pageStatus = 'normal';
+      }
+    },
     bindGetUserInfo(e) {
-      if (e.detail.errMsg.indexOf('ok') > -1) {
+      if (e.detail.errMsg.indexOf("ok") > -1) {
         this.toList();
       } else {
         Taro.atMessage({

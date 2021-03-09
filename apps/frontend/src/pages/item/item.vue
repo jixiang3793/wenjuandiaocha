@@ -1,12 +1,12 @@
 <template>
   <view class="list">
-    <template v-if="pageloading">
-      <view class="text-center">
+    <template v-if="pageStatus === 'loading'">
+      <view class="text-center mt-1">
         <AtIcon value='loading-2' size='100'></AtIcon>
         <text class="d-block mt-1">正在加载中...</text>
       </view>
     </template>
-    <template v-if="!pageloading">
+    <template v-if="pageStatus === 'normal'">
       <view>
         <text class="d-block text-center font-1h my-1">{{ timus[current].block }}</text>
         <text class="d-block my-1">{{ timus[current].category }}</text>
@@ -59,7 +59,18 @@
         </AtButton>
       </view>
     </template>
-
+    <template v-if="pageStatus === 'finish'">
+      <view>
+        <text class="d-block text-center font-1h"
+          >南安市维护妇女儿童合法权益实施情况调查问卷</text
+        >
+        <view class="mt-1 text-center">
+          <AtIcon value="check-circle" size="100" color="green"></AtIcon>
+          <text class="d-block my-1 fs-2">您已完成所有答题</text>
+          <text class="d-block my-1 fs-1h">感谢您的参与</text>
+        </view>
+      </view>
+    </template>
   </view>
 </template>
 
@@ -90,19 +101,18 @@ export default {
       msg: "",
       showMsg: false,
       loading: false,
-      pageloading: false,
+      pageStatus: 'loading',
       numlist: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"],
       current: 0,
     };
   },
   async created() {
-    this.pageloading = true;
     const dataRes = await Taro.request({
       url: `${REQHOST}/timu`,
       method: 'GET'
     });
     this.timus = dataRes.data;
-    this.pageloading = false;
+    this.pageStatus = 'normal';
   },
   methods: {
     prev() {
@@ -110,12 +120,10 @@ export default {
     },
     async handleClick() {
       if (this.current + 1 === this.timus.length) {
-        // console.log("tijiao daan ...", this.answer);
         if (!this.answer[this.timus[this.current].title]) {
           this.msg = '请选择答案';
           this.showMsg = true;
         } else {
-          // this.current++;
           this.loading = true;
           const userInfo = Taro.getStorageSync('userInfo');
           const result = await Taro.request({
@@ -125,11 +133,11 @@ export default {
           });
           console.log("save result ...",result);
           this.loading = false;
-          // if (isAnswerRes.data.isAnswer) {
-          Taro.navigateTo({
-            url: "/pages/success/success",
+          this.pageStatus = 'finish';
+          Taro.setStorage({
+            key: "userAnswerIsFinish",
+            data: true,
           });
-          // }
         }
       } else {
         if (!this.answer[this.timus[this.current].title]) {
