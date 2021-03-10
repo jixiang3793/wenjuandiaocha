@@ -74,12 +74,21 @@ export default {
     return {
       // canIUse: wx.canIUse('button.open-type.getUserInfo')
       isUserInfo: false,
-      pageStatus: 'loading', // loading-在加载中,finish-已完成,normal-首页
+      pageStatus: "loading", // loading-在加载中,finish-已完成,normal-首页
     };
   },
   onLoad: function () {
+    // Taro.showShareMenu({
+    //   withShareTicket: true,
+    //   showShareItems: ["wechatFriends", "wechatMoment"],
+    // });
+    wx.showShareMenu({
+      withShareTicket: true,
+      //设置下方的Menus菜单，才能够让发送给朋友与分享到朋友圈两个按钮可以点击
+      menus: ["shareAppMessage", "shareTimeline"],
+    });
     // 查看是否授权
-    Taro.removeStorageSync('userAnswerIsFinish');
+    Taro.removeStorageSync("userAnswerIsFinish");
     const that = this;
     wx.getSetting({
       success(settingRes) {
@@ -97,27 +106,49 @@ export default {
               // console.log("isAnswerRes ...",isAnswerRes);
             },
             fail: function () {
-              that.loading = false;
+              that.pageStatus = "normal";
             },
           });
         } else {
-          that.loading = false;
+          that.pageStatus = "normal";
         }
       },
       fail() {
-        that.loading = false;
+        that.pageStatus = "normal";
       },
     });
+  },
+  //发送给朋友
+  onShareAppMessage(res) {
+    // return {
+    //   title: "深山工作室欢迎你",
+    //   type: 0,
+    //   path: "/pages/index/index",
+    //   summary: "",
+    //   imageUrl: "这个是分享图片地址",
+    // };
+    console.log("onShareAppMessage ...");
+  },
+  //分享到朋友圈
+  onShareTimeline(res) {
+    // return {
+    //   title: "深山工作室欢迎你",
+    //   type: 0,
+    //   query: "id=" + distSource, //这个是参数
+    //   summary: "",
+    //   imageUrl: "这个是分享图片地址",
+    // };
+    console.log("onShareTimeline ...");
   },
   onShow() {
     // 返回页面时需要
     // console.log("onshow ...", this.isUserInfo);
     if (this.isUserInfo) {
-      const isFinish = Taro.getStorageSync('userAnswerIsFinish');
+      const isFinish = Taro.getStorageSync("userAnswerIsFinish");
       if (isFinish) {
-        this.pageStatus = 'finish';
+        this.pageStatus = "finish";
       } else {
-        this.pageStatus = 'normal';
+        this.pageStatus = "normal";
       }
       // this.getIsAnswer(Taro.getStorageSync('userInfo'));
     }
@@ -130,9 +161,9 @@ export default {
         method: "POST",
       });
       if (isAnswerRes.data.isAnswer) {
-        this.pageStatus = 'finish';
+        this.pageStatus = "finish";
       } else {
-        this.pageStatus = 'normal';
+        this.pageStatus = "normal";
       }
     },
     bindGetUserInfo(e) {
