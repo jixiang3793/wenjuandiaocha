@@ -1,8 +1,7 @@
 export default {
   pages: [
     'pages/index/index',
-    'pages/item/item',
-    'pages/success/success'
+    'pages/item/item'
   ],
   window: {
     backgroundTextStyle: 'light',
