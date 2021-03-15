@@ -34,6 +34,19 @@
               "
             />
           </template>
+          <template v-if="timus[current].mode === 'input'">
+            <AtTextarea
+              placeholder='请输入内容'
+              :value="answer[timus[current].title]"
+              :maxLength="500"
+              :height="180"
+              :onChange="
+                (value) => {
+                  handleChange(value, timus[current].title);
+                }
+              "
+            />
+          </template>
         </view>
       </view>
       <view class="my-1 text-center">
@@ -78,12 +91,13 @@
 // 按需引入, 更小的应用体积
 import Taro from "@tarojs/taro";
 
-import { AtButton, AtRadio, AtCheckbox, AtToast, AtIcon } from "taro-ui-vue";
+import { AtButton, AtRadio, AtCheckbox, AtToast, AtIcon, AtTextarea } from "taro-ui-vue";
 import "taro-ui-vue/dist/style/components/button.scss";
 import "taro-ui-vue/dist/style/components/radio.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/checkbox.scss";
 import "taro-ui-vue/dist/style/components/toast.scss";
+import "taro-ui-vue/dist/style/components/textarea.scss";
 
 import "./item.scss";
 export default {
@@ -92,7 +106,8 @@ export default {
     AtRadio,
     AtCheckbox,
     AtToast,
-    AtIcon
+    AtIcon,
+    AtTextarea
   },
   data() {
     return {
@@ -103,7 +118,7 @@ export default {
       loading: false,
       pageStatus: 'loading',
       numlist: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"],
-      current: 0,
+      current: 61,
     };
   },
   async created() {
@@ -121,9 +136,12 @@ export default {
     async handleClick() {
       if (this.current + 1 === this.timus.length) {
         if (!this.answer[this.timus[this.current].title]) {
-          this.msg = '请选择答案';
+          this.msg = this.timus[this.current].mode === 'input' ? '请输入答案' : '请选择答案';
           this.showMsg = true;
         } else {
+          if (this.validateMax(this.timus[this.current],this.answer[this.timus[this.current].title])) {
+            return;
+          }
           this.loading = true;
           const userInfo = Taro.getStorageSync('userInfo');
           const result = await Taro.request({
@@ -141,12 +159,24 @@ export default {
         }
       } else {
         if (!this.answer[this.timus[this.current].title]) {
-          this.msg = '请选择答案';
+          this.msg = this.timus[this.current].mode === 'input' ? '请输入答案' : '请选择答案';
           this.showMsg = true;
         } else {
+          if (this.validateMax(this.timus[this.current],this.answer[this.timus[this.current].title])) {
+            return;
+          }
           this.current++;
         }
       }
+    },
+    validateMax(item,values) {
+      let isMax = false;
+      if (item.mode === 'checkbox' && item.max && values.length > item.max) {
+        isMax = true;
+        this.msg = `选项最多${item.max}个，请重新勾选`;
+        this.showMsg = true;
+      }
+      return isMax;
     },
     handleChange(value, title) {
       // console.log('handleChange ...',value,title)

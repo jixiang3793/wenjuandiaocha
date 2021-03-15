@@ -11,9 +11,14 @@
           <h3>{{category}}</h3>
           <div v-for="(iitem,j) in titles" :key="j">
             <h4>{{iitem.title}}</h4>
-            <div>
+            <div v-if="iitem.mode !== 'input'">
               <div v-for="(opt,k) in iitem.options" :key="k" class="timu-option-item">
                 {{opt.label}}({{opt.percent || 0}}%-{{opt.count || 0}}人)
+              </div>
+            </div>
+            <div v-if="iitem.mode === 'input'">
+              <div v-for="(value,k) in iitem.values" :key="k" class="timu-option-item">
+                {{value}}
               </div>
             </div>
           </div>
@@ -66,12 +71,19 @@ export default {
                 opt.count++;
               })
             } else {
-              const opt = it.options.find(opt => (opt.value === ticket));
-              console.log('opt ...',opt,ticket);
-              if (!opt.count) {
-                opt.count = 0;
+              if (it.mode === 'input') {
+                if (!it.values) {
+                  it.values = [];
+                }
+                it.values.push(ticket);
+              } else {
+                const opt = it.options.find(opt => (opt.value === ticket));
+                console.log('opt ...',opt,ticket);
+                if (!opt.count) {
+                  opt.count = 0;
+                }
+                opt.count++;
               }
-              opt.count++;
             }
           }
         });
