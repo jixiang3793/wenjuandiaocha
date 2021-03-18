@@ -20,6 +20,16 @@ class AnswerController extends Controller {
     this.ctx.body = answer;
   }
 
+  async findByParams() {
+    const params = this.ctx.request.body;
+    const result = await this.ctx.model.Answer.find(params.filter,params.projection,params.options);
+    this.ctx.body = result;
+  }
+  async count() {
+    const result = await this.ctx.model.Answer.count();
+    this.ctx.body = result;
+  }
+
 }
 
 module.exports = AnswerController;

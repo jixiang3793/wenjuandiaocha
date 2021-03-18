@@ -16,11 +16,13 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1615045109274_4419';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = ['compress'];
 
   // add your user config here
   const userConfig = {
-    // myAppName: 'egg',
+    compress: {
+      threshold: 2048,
+    },
     mongoose: {
       client: {
         url: 'mongodb://127.0.0.1/wenjuandiaocha',

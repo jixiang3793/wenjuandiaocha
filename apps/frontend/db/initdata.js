@@ -5,7 +5,119 @@ wenjuandiaocha.timus.insertMany([
   {
     block: "一、妇女发展",
     category: "（―）您的个人情况",
-    title: "1、您的年龄：",
+    title: "1、您来自哪个乡镇：",
+    mode: "radio",
+    options: [
+      {
+        label: "A、溪美",
+        value: "A、溪美",
+      },
+      {
+        label: "B、柳城",
+        value: "B、柳城",
+      },
+      {
+        label: "C、美林",
+        value: "C、美林",
+      },
+      {
+        label: "D、省新",
+        value: "D、省新",
+      },
+      {
+        label: "E、仑苍",
+        value: "E、仑苍",
+      },
+      {
+        label: "F、东田",
+        value: "F、东田",
+      },
+      {
+        label: "G、英都",
+        value: "G、英都",
+      },
+      {
+        label: "H、翔云",
+        value: "H、翔云",
+      },
+      {
+        label: "I、金淘",
+        value: "I、金淘",
+      },
+      {
+        label: "J、眉山",
+        value: "J、眉山",
+      },
+      {
+        label: "K、诗山",
+        value: "K、诗山",
+      },
+      {
+        label: "L、蓬华",
+        value: "L、蓬华",
+      },
+      {
+        label: "M、码头",
+        value: "M、码头",
+      },
+      {
+        label: "N、九都",
+        value: "N、九都",
+      },
+      {
+        label: "O、向阳",
+        value: "O、向阳",
+      },
+      {
+        label: "P、乐峰",
+        value: "P、乐峰",
+      },
+      {
+        label: "Q、罗东",
+        value: "Q、罗东",
+      },
+      {
+        label: "R、梅山",
+        value: "R、梅山",
+      },
+      {
+        label: "S、洪濑",
+        value: "S、洪濑",
+      },
+      {
+        label: "T、洪梅",
+        value: "T、洪梅",
+      },
+      {
+        label: "U、康美",
+        value: "U、康美",
+      },
+      {
+        label: "V、丰州",
+        value: "V、丰州",
+      },
+      {
+        label: "W、霞美",
+        value: "W、霞美",
+      },
+      {
+        label: "X、官桥",
+        value: "X、官桥",
+      },
+      {
+        label: "Y、水头",
+        value: "Y、水头",
+      },
+      {
+        label: "Z、石井",
+        value: "Z、石井",
+      },
+    ],
+  },
+  {
+    block: "一、妇女发展",
+    category: "（―）您的个人情况",
+    title: "2、您的年龄：",
     mode: "radio",
     options: [
       {
@@ -33,7 +145,7 @@ wenjuandiaocha.timus.insertMany([
   {
     block: "一、妇女发展",
     category: "（―）您的个人情况",
-    title: "2、您的户口所在地：",
+    title: "3、您的户口所在地：",
     mode: "radio",
     options: [
       {
