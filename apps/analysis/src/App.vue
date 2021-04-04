@@ -3,7 +3,7 @@
     <div class="px-32">
       <div class="text-center">
         <h1>南安市维护妇女儿童合法权益实施情况调查问卷统计结果</h1>
-        <h5>参与总人数：{{ result.length }}</h5>
+        <h5>参与总人数：13936</h5>
       </div>
       <template v-if="areaLoading">
         <div class="loading"></div>
@@ -39,7 +39,7 @@
         <div class="text-center">正在分析数据中，请稍等...</div>
       </template>
 
-      <template v-if="!analysisLoading && current.length > 0">
+      <template v-if="!analysisLoading">
         <!-- <div v-for="(categories, block) in timutree" :key="block">
           <h2>{{ block }}</h2>
           <div v-for="(titles, category) in categories" :key="category">
@@ -150,6 +150,8 @@
 import jump from "./jump.vue";
 import VePie from "v-charts/lib/pie.common";
 import VeBar from "v-charts/lib/bar.common";
+import timulistData from "./assets/answer.json";
+
 export default {
   components: {
     jump,
@@ -158,7 +160,7 @@ export default {
   },
   data() {
     return {
-      timulist: [],
+      timulist: timulistData,
       timutree: {},
       result: [],
       numlist: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"],
@@ -186,10 +188,12 @@ export default {
     };
   },
   created() {
-    this.getTimus();
+    // this.getTimus();
   },
   mounted() {
     // this.chartType = 'pie';
+    console.log("result ...",this.timulist,timulistData);
+    this.updateData();
   },
   methods: {
     genTree(list, tree) {
@@ -250,7 +254,7 @@ export default {
           // opt.value = opt.count;
         });
         if (it.mode === 'input') {
-          let means = it.values.filter(i => i && !this.filter.some(ii => ii === i.replace(/\s+/g,'')));
+          let means = it.values.filter(i => i && i.replace && !this.filter.some(ii => ii === i.replace(/\s+/g,'')));
           it.values = means;
         }
       });
@@ -333,11 +337,15 @@ export default {
       padding: 16px;
     min-height: 120px;
     margin-left: 8px;
-    box-shadow: 0px 0 3px 1px #ddd;
+    margin-bottom: 8px;
+    max-width: 140px;
+    box-shadow: 0px 0 1px 1px #ddd;
 }
 .timu-input-values {
   margin-left: -8px;
     margin-bottom: 32px;
+    max-height: 400px;
+    overflow: auto;
 }
 .timu-select-options {
   > button:not(:first-child) {
