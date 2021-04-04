@@ -249,8 +249,13 @@ export default {
           // opt.name = opt.label;
           // opt.value = opt.count;
         });
+        if (it.mode === 'input') {
+          let means = it.values.filter(i => i && !this.filter.some(ii => ii === i.replace(/\s+/g,'')));
+          it.values = means;
+        }
       });
       this.analysisLoading = false;
+      console.log('result list ...',JSON.stringify(list));
     },
     getTimus() {
       this.areaLoading = true;
@@ -307,11 +312,6 @@ export default {
       if (this.currentIndex >= this.ertongPos) {
         this.timulist[this.currentIndex].options.forEach(opt => opt.countacc = opt.value* opt.count);
         this.$set(this.chartAccData, "rows", this.timulist[this.currentIndex].options || []);
-      }
-      if (this.timulist[this.currentIndex].mode === 'input') {
-        let means = this.timulist[this.currentIndex].values.filter(i => !this.filter.some(ii => ii === i.replace(/\s+/g,'')));
-        this.timulist[this.currentIndex].values = means;
-        // console.log('means ...',means);
       }
     },
     typeChange(type) {
@@ -434,6 +434,15 @@ export default {
   .timu-option-item {
     display: block;
     margin: 0;
+  }
+  .jump-pos-abs {
+    position: relative;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+  .px-32 {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 .text-center {

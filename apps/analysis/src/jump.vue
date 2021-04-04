@@ -1,7 +1,7 @@
 <template>
   <div class="jump-select-ctrl">
       <div class="flex-center">
-        点击选择指定题目：<div @click="showSelectPanel" class="jump-selected-title" :title="timus[current].title">{{timus[current].title}}</div>
+        点击选择题目：<div @click="showSelectPanel" class="jump-selected-title" :title="timus[current].title">{{timus[current].title}}</div>
       </div>
       <div class="jump-select-panel" v-show="show">
 
@@ -157,5 +157,10 @@ export default {
         padding: 4px 8px;
         cursor: pointer;
     }
+}
+@media screen and (max-width: 1023px) {
+  .jump-select-panel {
+    left: 80px;
+  }
 }
 </style>
