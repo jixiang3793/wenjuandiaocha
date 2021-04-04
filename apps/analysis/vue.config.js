@@ -23,6 +23,6 @@ module.exports = {
     // writeToDisk: true,
     proxy: "http://localhost:7001",
   },
-  publicPath: 'public',
+  publicPath: process.env.NODE_ENV === 'production' ? 'public': '',
   outputDir: '../backend/app/public/',
 };

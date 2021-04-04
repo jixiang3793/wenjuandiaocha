@@ -25,7 +25,8 @@ module.exports = appInfo => {
     },
     mongoose: {
       client: {
-        url: 'mongodb://127.0.0.1/wenjuandiaocha',
+        // url: 'mongodb://127.0.0.1/wenjuandiaocha',
+        url: 'mongodb://139.9.161.162/wenjuandiaocha',
         options: {},
         // mongoose global plugins, expected a function or an array of function and options
         plugins: [],

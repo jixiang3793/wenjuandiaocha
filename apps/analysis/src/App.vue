@@ -40,7 +40,7 @@
       </template>
 
       <template v-if="!analysisLoading && current.length > 0">
-        <div v-for="(categories, block) in timutree" :key="block">
+        <!-- <div v-for="(categories, block) in timutree" :key="block">
           <h2>{{ block }}</h2>
           <div v-for="(titles, category) in categories" :key="category">
             <h3>{{ category }}</h3>
@@ -68,6 +68,60 @@
               </div>
             </div>
           </div>
+        </div> -->
+        <div>
+          <div>
+            <h2>{{ timulist[currentIndex].block }}</h2>
+            <h3>{{ timulist[currentIndex].category }}</h3>
+            <h4>{{ timulist[currentIndex].title }}</h4>
+            <template v-if="timulist[currentIndex].mode !== 'input'">
+              <div v-if="chartType === 'pie'">
+                <ve-pie :data="pieData"></ve-pie>
+              </div>
+              <div v-if="chartType === 'bar'">
+                <ve-bar :data="barData"></ve-bar>
+              </div>
+              
+            </template>
+            <template v-if="timulist[currentIndex].mode === 'input'">
+              <div class="d-flex timu-input-values">
+                <div
+                  v-for="(value, k) in timulist[currentIndex].values"
+                  :key="k"
+                  class="timu-input-value"
+                >
+                  {{ value }}
+                </div>
+              </div>
+            </template>
+          </div>
+          <div class="text-center pos-rel timu-select-options">
+            <button type="button" :disabled="currentIndex === 0" @click="prev">
+              上一题
+            </button>
+            <button
+              type="button"
+              :disabled="currentIndex === timulist.length - 1"
+              @click="next"
+            >
+              下一题
+            </button>
+
+            <button
+              type="button" :class="{'timu-type-selected': chartType === 'pie'}"
+              @click="typeChange('pie')"
+            >
+              饼状图
+            </button>
+
+            <button
+              type="button" :class="{'timu-type-selected': chartType === 'bar'}"
+              @click="typeChange('bar')"
+            >
+              柱状图
+            </button>
+            <jump class="jump-pos-abs" :timus="timulist" :current="currentIndex" @change="indexChange"></jump>
+          </div>
         </div>
       </template>
     </div>
@@ -75,22 +129,48 @@
 </template>
 
 <script>
+import jump from "./jump.vue";
+import VePie from "v-charts/lib/pie.common";
+import VeBar from "v-charts/lib/bar.common";
 export default {
-  components: {},
+  components: {
+    jump,
+    VePie,
+    VeBar
+  },
   data() {
     return {
       timulist: [],
       timutree: {},
       result: [],
       numlist: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"],
+      filter: ["无", "没建议", "！", "没有", "目前暂时没有", "否", "不清楚", "没有意见", "没有建议",
+      "无建议","不懂","一般","没意见","其它","?","、","、","无议建","没什么建议","。","t","都好","不知道","不好说","暂时没有"
+      ,"其他","：：：：","，，，","12345","暂无意件","125556","这个我不懂","暂无"
+      ],
       areaMap: {},
       areaLoading: false,
       analysisLoading: false,
       current: [],
+      currentIndex: 0,
+      chartType: 'pie', // pie 
+      pieData: {
+        columns: ['label', 'count'],
+        rows: [
+        ]
+      },
+      barData: {
+        columns: ['label', 'count'],
+        rows: [
+        ]
+      },
     };
   },
   created() {
     this.getTimus();
+  },
+  mounted() {
+    // this.chartType = 'pie';
   },
   methods: {
     genTree(list, tree) {
@@ -147,6 +227,8 @@ export default {
         });
         it.options.forEach((opt) => {
           opt.percent = Math.round((opt.count / result.length) * 100);
+          // opt.name = opt.label;
+          // opt.value = opt.count;
         });
       });
       this.analysisLoading = false;
@@ -161,12 +243,14 @@ export default {
       });
     },
     getResult() {
-      this.$http.get("/answer").then((result) => {
+      // this.$http.get("/answer").then((result) => {
+      this.$http.post("/answer/query",{options: {limit: 10,skip: 0}}).then((result) => {
         this.result = result.data;
         // console.log('result ...',this.result);
         this.getArea(this.timulist, this.result);
         this.areaLoading = false;
         // this.analysis(this.timulist,this.result);
+        this.updateData();
       });
     },
     getArea(list, result) {
@@ -184,6 +268,31 @@ export default {
     formatArea(name) {
       return name.split("、")[1] + "镇";
     },
+    prev() {
+      this.currentIndex--;
+      this.updateData();
+    },
+    next() {
+      this.currentIndex++;
+      this.updateData();
+    },
+    indexChange(index) {
+      this.currentIndex = index;
+      this.updateData();
+    },
+    updateData() {
+      this.$set(this.pieData, "rows", this.timulist[this.currentIndex].options || []);
+      this.$set(this.barData, "rows", this.timulist[this.currentIndex].options || []);
+      if (this.timulist[this.currentIndex].mode === 'input') {
+        let means = this.timulist[this.currentIndex].values.filter(i => !this.filter.some(ii => ii === i.replace(/\s+/g,'')));
+        this.timulist[this.currentIndex].values = means;
+        // console.log('means ...',means);
+      }
+    },
+    typeChange(type) {
+      this.chartType = type;
+      this.$nextTick();
+    }
   },
 };
 </script>
@@ -196,9 +305,34 @@ export default {
   padding-top: 4px;
   padding-bottom: 4px;
 }
+.timu-input-value {
+      padding: 16px;
+    min-height: 120px;
+    margin-left: 8px;
+    box-shadow: 0px 0 3px 1px #ddd;
+}
+.timu-input-values {
+  margin-left: -8px;
+    margin-bottom: 32px;
+}
+.timu-select-options {
+  > button:not(:first-child) {
+    margin-left: 8px;
+  }
+}
+.timu-type-selected {
+  color: cornflowerblue;
+}
 .d-flex {
   display: flex;
   flex-wrap: wrap;
+}
+.pos-rel {
+  position: relative;
+}
+.jump-pos-abs {
+  position: absolute;
+  left: 0;
 }
 .area-item {
   margin-top: 24px;
