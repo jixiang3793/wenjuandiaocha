@@ -10,7 +10,7 @@
         <div class="text-center">正在加载数据中，请稍等...</div>
       </template>
       <template v-if="!areaLoading">
-        <div>
+        <!-- <div>
           <h3>参与人数地区分布</h3>
           <div style="color: #aaa; margin-bottom: 12px">
             可点击查看地区答题情况
@@ -32,7 +32,7 @@
               <div class="area-item-title">{{ formatArea(area) }}</div>
             </div>
           </div>
-        </div>
+        </div> -->
       </template>
       <template v-if="analysisLoading">
         <div class="loading"></div>
@@ -76,12 +76,17 @@
             <h4>{{ timulist[currentIndex].title }}</h4>
             <template v-if="timulist[currentIndex].mode !== 'input'">
               <div v-if="chartType === 'pie'">
-                <ve-pie :data="pieData"></ve-pie>
+                <ve-pie :data="chartData"></ve-pie>
               </div>
               <div v-if="chartType === 'bar'">
-                <ve-bar :data="barData"></ve-bar>
+                <ve-bar :data="chartData"></ve-bar>
               </div>
-              
+              <div v-if="chartType === 'pieacc'">
+                <ve-pie :data="chartAccData"></ve-pie>
+              </div>
+              <div v-if="chartType === 'baracc'">
+                <ve-bar :data="chartAccData"></ve-bar>
+              </div>
             </template>
             <template v-if="timulist[currentIndex].mode === 'input'">
               <div class="d-flex timu-input-values">
@@ -120,6 +125,19 @@
             >
               柱状图
             </button>
+            <button v-if="currentIndex >= ertongPos"
+              type="button" :class="{'timu-type-selected': chartType === 'pieacc'}"
+              @click="typeChange('pieacc')"
+            >
+              饼状图(分值累加)
+            </button>
+
+            <button v-if="currentIndex >= ertongPos"
+              type="button" :class="{'timu-type-selected': chartType === 'baracc'}"
+              @click="typeChange('baracc')"
+            >
+              柱状图(分值累加)
+            </button>
             <jump class="jump-pos-abs" :timus="timulist" :current="currentIndex" @change="indexChange"></jump>
           </div>
         </div>
@@ -154,16 +172,17 @@ export default {
       current: [],
       currentIndex: 0,
       chartType: 'pie', // pie 
-      pieData: {
+      chartData: {
         columns: ['label', 'count'],
         rows: [
         ]
       },
-      barData: {
-        columns: ['label', 'count'],
+      chartAccData: {
+        columns: ['label', 'countacc'],
         rows: [
         ]
       },
+      ertongPos: 63
     };
   },
   created() {
@@ -249,7 +268,7 @@ export default {
         // console.log('result ...',this.result);
         this.getArea(this.timulist, this.result);
         this.areaLoading = false;
-        // this.analysis(this.timulist,this.result);
+        this.analysis(this.timulist,this.result);
         this.updateData();
       });
     },
@@ -281,8 +300,14 @@ export default {
       this.updateData();
     },
     updateData() {
-      this.$set(this.pieData, "rows", this.timulist[this.currentIndex].options || []);
-      this.$set(this.barData, "rows", this.timulist[this.currentIndex].options || []);
+      if (this.currentIndex < this.ertongPos && (this.chartType === 'pieacc' || this.chartType === 'baracc')) {
+        this.chartType = 'pie';
+      }
+      this.$set(this.chartData, "rows", this.timulist[this.currentIndex].options || []);
+      if (this.currentIndex >= this.ertongPos) {
+        this.timulist[this.currentIndex].options.forEach(opt => opt.countacc = opt.value* opt.count);
+        this.$set(this.chartAccData, "rows", this.timulist[this.currentIndex].options || []);
+      }
       if (this.timulist[this.currentIndex].mode === 'input') {
         let means = this.timulist[this.currentIndex].values.filter(i => !this.filter.some(ii => ii === i.replace(/\s+/g,'')));
         this.timulist[this.currentIndex].values = means;
@@ -291,7 +316,6 @@ export default {
     },
     typeChange(type) {
       this.chartType = type;
-      this.$nextTick();
     }
   },
 };

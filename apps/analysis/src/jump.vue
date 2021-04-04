@@ -1,7 +1,7 @@
 <template>
   <div class="jump-select-ctrl">
       <div class="flex-center">
-        点击选择指定题目：<div @click="showSelectPanel" class="jump-selected-title">{{timus[current].title}}</div>
+        点击选择指定题目：<div @click="showSelectPanel" class="jump-selected-title" :title="timus[current].title">{{timus[current].title}}</div>
       </div>
       <div class="jump-select-panel" v-show="show">
 
@@ -12,6 +12,7 @@
               <span class="jump-pagnation-operation" @click="prev">←</span>
               <span class="jump-pagnation-vl"> | </span>
               <span class="jump-pagnation-operation" @click="next">→</span>
+              <span style="margin-left: 16px;"><span style="color: cornflowerblue">{{current}}</span>/{{timus.length}}</span>
           </div>
       </div>
   </div>
@@ -62,7 +63,7 @@ export default {
     },
     watch: {
         current: function (index) {
-            console.log("watch ...",index);
+            // console.log("watch ...",index);
             this.calcStartEnd(index);
         }
     }
