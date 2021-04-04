@@ -262,8 +262,8 @@ export default {
       });
     },
     getResult() {
-      // this.$http.get("/answer").then((result) => {
-      this.$http.post("/answer/query",{options: {limit: 10,skip: 0}}).then((result) => {
+      this.$http.get("/answer").then((result) => {
+      // this.$http.post("/answer/query",{options: {limit: 10,skip: 0}}).then((result) => {
         this.result = result.data;
         // console.log('result ...',this.result);
         this.getArea(this.timulist, this.result);
