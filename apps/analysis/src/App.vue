@@ -73,19 +73,22 @@
           <div>
             <h2>{{ timulist[currentIndex].block }}</h2>
             <h3>{{ timulist[currentIndex].category }}</h3>
-            <h4>{{ timulist[currentIndex].title }}</h4>
+            <h4 style="text-align: center">{{ timulist[currentIndex].title }}</h4>
             <template v-if="timulist[currentIndex].mode !== 'input'">
               <div v-if="chartType === 'pie'">
                 <ve-pie :data="chartData"></ve-pie>
               </div>
               <div v-if="chartType === 'bar'">
-                <ve-bar :data="chartData"></ve-bar>
+                <!-- <ve-bar :data="chartData" ref="bar"></ve-bar> -->
+                <!-- <ve-histogram :data="chartData" ref="bar"></ve-histogram> -->
+                <div id="barId" style="height:400px;"></div>
               </div>
               <div v-if="chartType === 'pieacc'">
                 <ve-pie :data="chartAccData"></ve-pie>
               </div>
               <div v-if="chartType === 'baracc'">
-                <ve-bar :data="chartAccData"></ve-bar>
+                <!-- <ve-bar :data="chartAccData"></ve-bar> -->
+                <div id="barAccId" style="height:400px;"></div>
               </div>
             </template>
             <template v-if="timulist[currentIndex].mode === 'input'">
@@ -149,14 +152,16 @@
 <script>
 import jump from "./jump.vue";
 import VePie from "v-charts/lib/pie.common";
-import VeBar from "v-charts/lib/bar.common";
+// import VeBar from "v-charts/lib/bar.common";
+// import VeHistogram from "v-charts/lib/bar.common";
 import timulistData from "./assets/answer.json";
 
 export default {
   components: {
     jump,
     VePie,
-    VeBar
+    // VeBar,
+    // VeHistogram
   },
   data() {
     return {
@@ -173,7 +178,7 @@ export default {
       analysisLoading: false,
       current: [],
       currentIndex: 0,
-      chartType: 'pie', // pie 
+      chartType: 'bar', // pie 
       chartData: {
         columns: ['label', 'count'],
         rows: [
@@ -194,6 +199,7 @@ export default {
     // this.chartType = 'pie';
     console.log("result ...",this.timulist,timulistData);
     this.updateData();
+    this.typeChange('bar');
   },
   methods: {
     genTree(list, tree) {
@@ -303,6 +309,7 @@ export default {
     next() {
       this.currentIndex++;
       this.updateData();
+      // console.log('bar ...', this.$refs.bar);
     },
     indexChange(index) {
       this.currentIndex = index;
@@ -316,10 +323,95 @@ export default {
       if (this.currentIndex >= this.ertongPos) {
         this.timulist[this.currentIndex].options.forEach(opt => opt.countacc = opt.value* opt.count);
         this.$set(this.chartAccData, "rows", this.timulist[this.currentIndex].options || []);
+        this.updateBarAcc();
+      }
+      this.updateBar();
+
+    },
+    updateBar() {
+      if (this.chartType === 'bar') {
+        this.$nextTick(() => {
+
+          var myChart = this.$echarts.init(document.getElementById('barId'));
+            // 指定图表的配置项和数据
+            const labels = this.timulist[this.currentIndex].options.map(opt => opt.label);
+            const values = this.timulist[this.currentIndex].options.map(opt => opt.count);
+            console.log('labels,values',labels,values);
+            var option = {
+                tooltip: {},
+                legend: {
+                    // data:['销量']
+                },
+                xAxis: {
+                    data: labels,
+                    axisLabel: {interval: 0}
+                },
+                yAxis: {
+                  name: '人数'
+                },
+                series: [{
+                  type: 'bar',
+                  label: {
+                      show: true,
+                      position: 'top',
+                      formatter: (params) => {
+                        const per = params.value/13936 * 100;
+                        return `${per.toFixed(2)}%, ${params.value}`;
+                      }
+                  },
+                  data: values
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        })
+      }
+    },
+
+    updateBarAcc() {
+      if (this.chartType === 'baracc') {
+        this.$nextTick(() => {
+
+          var myChart = this.$echarts.init(document.getElementById('barAccId'));
+            // 指定图表的配置项和数据
+            const labels = this.timulist[this.currentIndex].options.map(opt => opt.label);
+            const values = this.timulist[this.currentIndex].options.map(opt => opt.countacc);
+            const sum = this.timulist[this.currentIndex].options.reduce((acc,opt) => acc + opt.countacc,0);
+            console.log('labels,values',labels,values,sum);
+            var option = {
+                tooltip: {},
+                legend: {
+                    // data:['销量']
+                },
+                xAxis: {
+                    data: labels,
+                    axisLabel: {interval: 0}
+                },
+                yAxis: {
+                  name: '得分'
+                },
+                series: [{
+                  type: 'bar',
+                  label: {
+                      show: true,
+                      position: 'top',
+                      formatter: (params) => {
+                        const per = params.value/sum * 100;
+                        return `${per.toFixed(2)}%, ${params.value}`;
+                      }
+                  },
+                  data: values
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        })
       }
     },
     typeChange(type) {
       this.chartType = type;
+      this.updateBar();
+      this.updateBarAcc();
     }
   },
 };
