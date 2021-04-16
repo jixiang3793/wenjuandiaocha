@@ -344,7 +344,29 @@ export default {
                 },
                 xAxis: {
                     data: labels,
-                    axisLabel: {interval: 0}
+                    axisLabel: {
+                      interval: 0,
+                      // align: 'left',
+                      // width: 200
+                      formatter:(value) => {
+                        function toList(str) {
+                          const list = [];
+                          if (str && str.length > 12) {
+                            const len = Math.floor(str.length/12);
+                            for (let index = 0; index < len; index++) {
+                              list.push(str.substring(index*12,index*12 + 12));
+                            } 
+                            list.push(str.substr(len*12));
+                          }
+                          console.log("tolist ...",list);
+                          return list;
+                        }
+                        if (value.length > 12) {
+                          return toList(value).join('\n');
+                        }
+                        return value;
+                      }
+                    }
                 },
                 yAxis: {
                   name: '人数'
