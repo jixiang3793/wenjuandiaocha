@@ -81,14 +81,14 @@
               <div v-if="chartType === 'bar'">
                 <!-- <ve-bar :data="chartData" ref="bar"></ve-bar> -->
                 <!-- <ve-histogram :data="chartData" ref="bar"></ve-histogram> -->
-                <div id="barId" style="height:400px;"></div>
+                <div id="barId" style="height:500px;"></div>
               </div>
               <div v-if="chartType === 'pieacc'">
                 <ve-pie :data="chartAccData"></ve-pie>
               </div>
               <div v-if="chartType === 'baracc'">
                 <!-- <ve-bar :data="chartAccData"></ve-bar> -->
-                <div id="barAccId" style="height:400px;"></div>
+                <div id="barAccId" style="height:500px;"></div>
               </div>
             </template>
             <template v-if="timulist[currentIndex].mode === 'input'">
@@ -342,6 +342,9 @@ export default {
                 legend: {
                     // data:['销量']
                 },
+                grid: {
+                  bottom: 90, //字体大小默认12px
+                },
                 xAxis: {
                     data: labels,
                     axisLabel: {
@@ -351,17 +354,17 @@ export default {
                       formatter:(value) => {
                         function toList(str) {
                           const list = [];
-                          if (str && str.length > 12) {
-                            const len = Math.floor(str.length/12);
+                          if (str && str.length > 14) {
+                            const len = Math.floor(str.length/14);
                             for (let index = 0; index < len; index++) {
-                              list.push(str.substring(index*12,index*12 + 12));
+                              list.push(str.substring(index*14,index*14 + 14));
                             } 
-                            list.push(str.substr(len*12));
+                            list.push(str.substr(len*14));
                           }
                           console.log("tolist ...",list);
                           return list;
                         }
-                        if (value.length > 12) {
+                        if (value.length > 14) {
                           return toList(value).join('\n');
                         }
                         return value;
